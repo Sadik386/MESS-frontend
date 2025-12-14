@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {
     const authContext = useContext(AuthContext);
-    const { login, isAuthenticated } = authContext;
+    const { login, isAuthenticated, error, clearErrors } = authContext;
     const navigate = useNavigate();
 
     const [user, setUser] = useState({
@@ -19,6 +19,15 @@ const Login = () => {
             navigate('/');
         }
     }, [isAuthenticated, navigate]);
+
+    useEffect(() => {
+        if (error) {
+            const timer = setTimeout(() => {
+                clearErrors();
+            }, 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [error]);
 
     const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
 
@@ -39,6 +48,10 @@ const Login = () => {
             <div className="w-full max-w-xs">
                 <form onSubmit={onSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                     <h2 className="text-center text-2xl font-bold mb-6">Login</h2>
+                    {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                        <strong className="font-bold">Error!</strong>
+                        <span className="block sm:inline"> {error}</span>
+                    </div>}
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
                             Email

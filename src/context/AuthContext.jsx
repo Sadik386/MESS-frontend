@@ -8,7 +8,8 @@ const initialState = {
     token: localStorage.getItem('token'),
     isAuthenticated: null,
     loading: true,
-    user: null
+    user: null,
+    error: null
 };
 
 const authReducer = (state, action) => {
@@ -18,7 +19,8 @@ const authReducer = (state, action) => {
                 ...state,
                 isAuthenticated: true,
                 loading: false,
-                user: action.payload
+                user: action.payload,
+                error: null
             };
         case 'LOGIN_SUCCESS':
         case 'REGISTER_SUCCESS':
@@ -27,7 +29,8 @@ const authReducer = (state, action) => {
                 ...state,
                 ...action.payload,
                 isAuthenticated: true,
-                loading: false
+                loading: false,
+                error: null
             };
         case 'AUTH_ERROR':
         case 'LOGIN_FAIL':
@@ -39,7 +42,13 @@ const authReducer = (state, action) => {
                 token: null,
                 isAuthenticated: false,
                 loading: false,
-                user: null
+                user: null,
+                error: action.payload
+            };
+        case 'CLEAR_ERRORS':
+            return {
+                ...state,
+                error: null
             };
         default:
             return state;
@@ -104,6 +113,9 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    // Clear Errors
+    const clearErrors = () => dispatch({ type: 'CLEAR_ERRORS' });
+
     // Logout
     const logout = () => dispatch({ type: 'LOGOUT' });
 
@@ -115,7 +127,9 @@ export const AuthProvider = ({ children }) => {
                 loading: state.loading,
                 user: state.user,
                 login,
-                logout
+                logout,
+                error: state.error,
+                clearErrors
             }}
         >
             {children}
