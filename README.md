@@ -1,6 +1,9 @@
-  # Mess Management System (Meal Management)
+# Mess Management System (Meal Management)
 
 A full-stack MERN (MongoDB, Express, React, Node.js) application designed to manage meals, expenses, and payments for a mess or hostel environment. It provides a dashboard for tracking meal activity, calculating costs, and managing member contributions.
+
+## 🔗 Live Demo
+[https://mess-frontend-beryl.vercel.app/](https://mess-frontend-beryl.vercel.app/)
 
 ## 🚀 Features
 
